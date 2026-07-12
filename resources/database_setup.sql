@@ -103,7 +103,8 @@ INSERT INTO `users` (`username`, `password`, `role`) VALUES
 ('bhanuka', 'bhanuka123', 'Student'),
 ('chamari', 'chamari123', 'Student'),
 ('wanindu', 'wanindu123', 'Student'),
-('harshitha', 'harshitha123', 'Student')
+('harshitha', 'harshitha123', 'Student'),
+('suhad', 'suhad123', 'Student')
 ON DUPLICATE KEY UPDATE `password`=VALUES(`password`);
 
 -- Seed Departments
@@ -142,7 +143,8 @@ INSERT INTO `students` (`username`, `full_name`, `student_id`, `degree`, `email`
 ('bhanuka', 'Bhanuka Rajapaksa', 'BT/2022/012', 'Bio Systems Technology', 'bhanukar-bs22012@stu.kln.ac.lk', '0771112222'),
 ('chamari', 'Chamari Athapaththu', 'BT/2022/013', 'Bio Systems Technology', 'chamaria-bs22013@stu.kln.ac.lk', '0773334444'),
 ('wanindu', 'Wanindu Hasaranga', 'BT/2022/014', 'Bio Systems Technology', 'waninduh-bs22014@stu.kln.ac.lk', '0775556666'),
-('harshitha', 'Harshitha Samarawickrama', 'BT/2022/015', 'Bio Systems Technology', 'harshithas-bs22015@stu.kln.ac.lk', '0777778888')
+('harshitha', 'Harshitha Samarawickrama', 'BT/2022/015', 'Bio Systems Technology', 'harshithas-bs22015@stu.kln.ac.lk', '0777778888'),
+('suhad', 'Suhad Mohamed', 'CT/2022/012', 'Information Technology', 'suhad-ct22012@stu.kln.ac.lk', '0771231234')
 ON DUPLICATE KEY UPDATE `full_name`=VALUES(`full_name`), `degree`=VALUES(`degree`), `email`=VALUES(`email`), `mobile`=VALUES(`mobile`);
 
 -- Seed Courses (Categorized by prefixes for ET, IT/CT, CS, and BST streams)
@@ -195,13 +197,18 @@ INSERT INTO `course_enrollments` (`student_id`, `course_code`, `grade`) VALUES
 ('BT/2022/014', 'BSTE 11012', 'Pending'),
 ('BT/2022/014', 'BSTE 21023', 'C+'),
 ('BT/2022/015', 'BSTE 11012', 'A+'),
-('BT/2022/015', 'BSTE 21023', 'A')
+('BT/2022/015', 'BSTE 21023', 'A'),
+-- IT Student: Suhad Mohamed
+('CT/2022/012', 'CSCI 21062', 'A'),
+('CT/2022/012', 'CSCI 21052', 'B+'),
+('CT/2022/012', 'CSCI 21022', 'A-'),
+('CT/2022/012', 'CSCI 21032', 'B')
 ON DUPLICATE KEY UPDATE `grade`=VALUES(`grade`);
 
 -- Seed Timetable
 INSERT INTO `timetable` (`time_slot`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`) VALUES
-('08.00', 'OOP', 'OOP', 'OOP', 'OOP', 'OOP'),
-('10.00', 'OOP', 'OOP', 'OOP', 'OOP', 'OOP'),
-('01.00', 'SE', 'OOP', 'SE', 'SE', 'SE'),
-('03.00', 'SE', 'OOP', 'SE', 'SE', 'SE')
+('08.00-10.00', 'CSCI 21062', 'CSCI 21052', 'CSCI 21062', 'CSCI 21052', 'CSCI 21022'),
+('10.00-12.00', 'CSCI 21022', 'CSCI 21032', 'CSCI 21032', 'CSCI 21022', 'CSCI 21062'),
+('12.00-13.00', 'Lunch', 'Lunch', 'Lunch', 'Lunch', 'Lunch'),
+('13.00-15.00', 'CSCI 21052', 'CSCI 21062', 'CSCI 21022', 'CSCI 21032', 'CSCI 21052')
 ON DUPLICATE KEY UPDATE `monday`=VALUES(`monday`), `tuesday`=VALUES(`tuesday`), `wednesday`=VALUES(`wednesday`), `thursday`=VALUES(`thursday`), `friday`=VALUES(`friday`);
