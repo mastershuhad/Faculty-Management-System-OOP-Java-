@@ -317,11 +317,53 @@ public class StudentDashboardFrame extends JFrame {
         coursesPanel.add(lblTitle);
 
         tableCourses = new SleekTable();
+
+        // Sample data matching the reference design
+        String[] courseColumns = {"Course code", "Course name", "Credits", "Grade"};
+        Object[][] sampleCourses = {
+            {"ETEC 21062", "OOP", 2, "A+"},
+            {"ETEC 21052", "OOP", 2, "B"},
+            {"ETEC 21042", "OOP", 2, "A"},
+            {"ETEC 21032", "OOP", 2, "D"},
+            {"ETEC 21022", "OOP", 2, "C"},
+            {"ETEC 21012", "OOP", 2, "B"}
+        };
+        DefaultTableModel sampleModel = new DefaultTableModel(sampleCourses, courseColumns) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        tableCourses.setModel(sampleModel);
+        applyCourseTableRenderer();
+
         JScrollPane sp = new JScrollPane(tableCourses);
         sp.setBounds(50, 100, 640, 420);
-        sp.setBorder(BorderFactory.createEmptyBorder());
+        sp.setBorder(BorderFactory.createLineBorder(CustomComponents.COLOR_BORDER, 1));
         sp.getViewport().setBackground(CustomComponents.COLOR_BG);
         coursesPanel.add(sp);
+    }
+
+    private void applyCourseTableRenderer() {
+        tableCourses.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                if (isSelected) {
+                    c.setBackground(CustomComponents.COLOR_PURPLE);
+                    c.setForeground(Color.WHITE);
+                } else {
+                    c.setForeground(CustomComponents.COLOR_TEXT_PRIMARY);
+                    c.setBackground(row % 2 == 0 ? CustomComponents.COLOR_CARD : new Color(26, 26, 32));
+                }
+                setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, CustomComponents.COLOR_BORDER));
+                return c;
+            }
+        });
+        tableCourses.getTableHeader().setBackground(new Color(80, 0, 120));
+        tableCourses.getTableHeader().setForeground(Color.WHITE);
+        tableCourses.getTableHeader().setFont(CustomComponents.FONT_SUBTITLE);
+        tableCourses.setRowHeight(38);
+        tableCourses.setShowGrid(true);
+        tableCourses.setGridColor(CustomComponents.COLOR_BORDER);
     }
 
     public void switchPanel(String tabName) {
@@ -402,5 +444,6 @@ public class StudentDashboardFrame extends JFrame {
 
     public void setCoursesModel(DefaultTableModel model) {
         tableCourses.setModel(model);
+        applyCourseTableRenderer();
     }
 }
