@@ -1,13 +1,31 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import model.DBConnector;
+import view.AuthFrame;
+import controller.AuthController;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+import javax.swing.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Use system look and feel as baseline, but our custom components override styling
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Initialize Database and Seed Data in the background/startup
+        SwingUtilities.invokeLater(() -> {
+            try {
+                // Auto-create database & tables if they don't exist
+                DBConnector.initializeDatabase();
+            } catch (Exception e) {
+                System.err.println("DB Initialization Warning: " + e.getMessage());
+            }
+
+            // Launch Authentication View
+            AuthFrame authFrame = new AuthFrame();
+            new AuthController(authFrame);
+            authFrame.setVisible(true);
+        });
     }
 }
